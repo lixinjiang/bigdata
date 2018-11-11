@@ -1,4 +1,4 @@
-package cn.lxj.mr;
+package cn.lxj.mr1;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
