@@ -1,4 +1,4 @@
-package cn.lxj.mr1;
+package cn.lxj.wordcount;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;

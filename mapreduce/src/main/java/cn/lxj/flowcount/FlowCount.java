@@ -1,4 +1,4 @@
-package cn.lxj.mr2;
+package cn.lxj.flowcount;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;

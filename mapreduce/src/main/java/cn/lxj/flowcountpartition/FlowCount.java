@@ -1,4 +1,4 @@
-package cn.lxj.mr3;
+package cn.lxj.flowcountpartition;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;

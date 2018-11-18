@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bigdata.iml" filepath="$PROJECT_DIR$/bigdata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/localmr/localmr.iml" filepath="$PROJECT_DIR$/localmr/localmr.iml" />
       <module fileurl="file://$PROJECT_DIR$/mapreduce/mapreduce.iml" filepath="$PROJECT_DIR$/mapreduce/mapreduce.iml" />
     </modules>
   </component>

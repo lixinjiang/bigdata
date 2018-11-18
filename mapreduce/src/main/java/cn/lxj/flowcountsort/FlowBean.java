@@ -1,4 +1,4 @@
-package cn.lxj.mr4;
+package cn.lxj.flowcountsort;
 
 import org.apache.hadoop.io.WritableComparable;
 

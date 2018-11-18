@@ -1,4 +1,4 @@
-package cn.lxj.mr3;
+package cn.lxj.flowcount;
 
 import org.apache.hadoop.io.Writable;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
  * Description:
  *
  * @author bonusli@163.com
- * @date 2018/11/13 0:22
+ * @date 2018/11/12 21:47
  */
 public class FlowBean implements Writable {
 
@@ -18,7 +18,7 @@ public class FlowBean implements Writable {
     private long dFlow;
     private long sumFlow;
 
-    //反序列化时，需要反射调用空参构造函数，所以要显示定义一个
+    // 反序列话的时候，需要反射调用空参构造函数，所以需要显示定义一个
     public FlowBean() {
     }
 
@@ -27,7 +27,6 @@ public class FlowBean implements Writable {
         this.dFlow = dFlow;
         this.sumFlow = upFlow + dFlow;
     }
-
 
     public long getUpFlow() {
         return upFlow;
@@ -45,43 +44,40 @@ public class FlowBean implements Writable {
         this.dFlow = dFlow;
     }
 
-
     public long getSumFlow() {
         return sumFlow;
     }
-
 
     public void setSumFlow(long sumFlow) {
         this.sumFlow = sumFlow;
     }
 
-
     /**
      * 序列化方法
+     *
+     * @param dataOutput
+     * @throws IOException
      */
-    public void write(DataOutput out) throws IOException {
-        out.writeLong(upFlow);
-        out.writeLong(dFlow);
-        out.writeLong(sumFlow);
-
+    public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeLong(upFlow);
+        dataOutput.writeLong(dFlow);
+        dataOutput.writeLong(sumFlow);
     }
-
 
     /**
      * 反序列化方法
-     * 注意：反序列化的顺序跟序列化的顺序完全一致
+     *
+     * @param dataInput
+     * @throws IOException
      */
-    public void readFields(DataInput in) throws IOException {
-        upFlow = in.readLong();
-        dFlow = in.readLong();
-        sumFlow = in.readLong();
+    public void readFields(DataInput dataInput) throws IOException {
+        upFlow = dataInput.readLong();
+        dFlow = dataInput.readLong();
+        sumFlow = dataInput.readLong();
     }
 
     @Override
     public String toString() {
-
         return upFlow + "\t" + dFlow + "\t" + sumFlow;
     }
-
 }
-
