@@ -17,7 +17,7 @@ public class DBLoader {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?characterEncoding=utf-8", "root", "123456");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hhg_database?characterEncoding=utf-8", "root", "123456");
             st = conn.createStatement();
             rs = st.executeQuery("SELECT url,content FROM url_rule");
             while (rs.next()) {

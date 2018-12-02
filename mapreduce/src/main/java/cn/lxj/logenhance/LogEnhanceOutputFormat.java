@@ -24,8 +24,8 @@ public class LogEnhanceOutputFormat extends FileOutputFormat<Text, NullWritable>
             InterruptedException {
         FileSystem fs = FileSystem.get(job.getConfiguration());
 
-        Path enhancePath = new Path("E:\\IdeaProjects\\bigdata\\mapreduce\\tmp\\en\\log.dat");
-        Path tocrawlPath = new Path("E:\\IdeaProjects\\bigdata\\mapreduce\\tmp\\crw\\url.log");
+        Path enhancePath = new Path("E:\\ideaprojects\\bigdata\\mapreduce\\out\\logenhance\\en\\log.dat");
+        Path tocrawlPath = new Path("E:\\ideaprojects\\bigdata\\mapreduce\\out\\logenhance\\crw\\url.log");
 
         FSDataOutputStream enhanceOs = fs.create(enhancePath);
         FSDataOutputStream tocrawlOs = fs.create(tocrawlPath);

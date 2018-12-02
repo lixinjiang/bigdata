@@ -54,8 +54,8 @@ public class ShareFriendsStepOne {
         job.setReducerClass(ShareFirendsStepOneReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
-        FileInputFormat.setInputPaths(job, new Path("E:\\ideaprojects\\bigdata\\mapreduce\\input\\fensi\\sourcedata.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("E:\\ideaprojects\\bigdata\\mapreduce\\out\\fensi\\setpone.txt"));
+        FileInputFormat.setInputPaths(job, new Path("E:\\ideaprojects\\bigdata\\mapreduce\\input\\fensi"));
+        FileOutputFormat.setOutputPath(job, new Path("E:\\ideaprojects\\bigdata\\mapreduce\\out\\fensi"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 
