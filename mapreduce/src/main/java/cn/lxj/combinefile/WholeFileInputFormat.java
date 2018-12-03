@@ -19,7 +19,7 @@ import java.io.IOException;
 public class WholeFileInputFormat extends FileInputFormat<NullWritable,BytesWritable>{
 
     /**
-     * 是否要切分文件，如果是压缩文件就不切分，非压缩文件就要切分
+     * 设置每个小文件不可分片，保证一个小文件生成一个key-value键值对
      * @param context
      * @param filename
      * @return
