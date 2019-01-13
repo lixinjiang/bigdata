@@ -10,6 +10,7 @@
     <modules>
         <module>mapreduce</module>
         <module>localmr</module>
+        <module>hive</module>
         <module>weblog</module>
     </modules>
     <name>bigdata</name>
