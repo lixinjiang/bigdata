@@ -12,6 +12,7 @@
         <module>localmr</module>
         <module>hive</module>
         <module>weblog</module>
+        <module>hbase</module>
     </modules>
     <name>bigdata</name>
     <packaging>pom</packaging>
@@ -22,6 +23,7 @@
         <java.version>1.8</java.version>
         <hadoop.version>2.6.4</hadoop.version>
         <mysql.version>5.1.32</mysql.version>
+        <hbaseserver.version>1.4.0</hbaseserver.version>
     </properties>
 
 </project>
