@@ -7,11 +7,15 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.hbase.mapreduce.TableMapper;
+import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.net.TableMapping;
 
 import java.io.IOException;
@@ -32,6 +36,7 @@ public class HBaseMr {
 
     static {
         config = HBaseConfiguration.create();
+        /*过期写法，在配置文件中可配置*/
 //        config.set("hbase.zookeeper.quorum", "zk1,zk2,zk3");
 //        config.set("hbase.zookeeper.property.clientPort", "2181");
     }
@@ -109,12 +114,12 @@ public class HBaseMr {
      */
     public static class MyMapper extends TableMapper<Text, IntWritable> {
         private static IntWritable one = new IntWritable();
-        private static Text text = new Text();
+        private static Text word = new Text();
 
         /**
-         * 输出的类型为:key:rowkey; value:一行数据的结果集Result
-         * @param key
-         * @param value
+         * 输出的类型
+         * @param key   rowkey
+         * @param value value,一行数据的Result
          * @param context
          * @throws IOException
          * @throws InterruptedException
@@ -122,8 +127,41 @@ public class HBaseMr {
         @Override
         protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException,
                 InterruptedException {
+            // 获取一行数据中的colf：col
+            //  表里面只有一个列族，因而这里只获取每一行数据
+            String words = Bytes.toString(value.getValue(Bytes.toBytes(colf), Bytes.toBytes(col)));
+            // 按照空格分割
+            String itr[] = words.toString().split(" ");
+            // 循环出书word和1
+            for (int i = 0; i < itr.length; i++) {
+                word.set(itr[i]);
+                context.write(word, one);
+            }
+        }
+    }
 
-            super.map(key, value, context);
+    /**
+     * MyReduce 继承 TableReduce
+     * TableReduce<Text,IntWritable>
+     * Text:输出的key类型
+     * IntWritable：输入的value类型
+     * ImmutableBytesWritable：输出类型，表示rowkey的类型
+     */
+    public static class MyReduce extends TableReducer<Text, IntWritable, ImmutableBytesWritable> {
+        @Override
+        protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
+                InterruptedException {
+            // 对mapper的数据求和
+            int sum = 0;
+            for (IntWritable val : values) {
+                sum += val.get();
+            }
+            // 创建put，设置rowkey为单词
+            Put put = new Put(Bytes.toBytes(key.toString()));
+            // 封装数据
+            put.add(Bytes.toBytes(colf), Bytes.toBytes(col), Bytes.toBytes(String.valueOf(sum)));
+            // 写到hbase，需要指定rowkey、put
+            context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())), put);
         }
     }
 
@@ -134,5 +172,25 @@ public class HBaseMr {
         family.setMinVersions(0);
         desc.addFamily(family);
         admin.createTable(desc);
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        config.set("df.default.name", "hdfs://hadoop0:9000");//设置hdfs的默认路径
+        config.set("hadoop.job.ugi", "hadoop,hadoop"); // 用户名，组
+        config.set("mapred.job.tracker","master:9001"); // 设置jobtracker在哪
+        // 初始化表
+        initTB();
+        // 创建job
+        Job job = new Job(config, "HBaseMr");// job
+        job.setJarByClass(HBaseMr.class);
+        // 创建scan
+        Scan scan = new Scan();
+        // 可以指定查询某一列
+        scan.addColumn(Bytes.toBytes(colf), Bytes.toBytes(col));
+        // 创建查询Hbase的mapper，设置表名、scan、mapper类，mapper的输出key、mapper的输出value
+        TableMapReduceUtil.initTableMapperJob(tableName,scan,MyMapper.class,Text.class,IntWritable.class,job);
+        // 创建写入hbase的reduce，指定表名、reducer类、job
+        TableMapReduceUtil.initTableReducerJob(tableName2, MyReduce.class, job);
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
