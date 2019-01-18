@@ -25,12 +25,12 @@ public class BloomFilterTest {
         BloomFilter<Email> emallBloomFilter = BloomFilter.create((Funnel<Email>) (from, into) -> into.putString(from
                 .getDomain(), Charsets.UTF_8), (int) expectedInsertions, fpp);
         emallBloomFilter.put(new Email("sage.wang", "quanr.com"));
-        boolean containsEmail = emallBloomFilter.mightContain(new Email("sage.wangaaa", "quanr.com"));
+        boolean containsEmail = emallBloomFilter.mightContain(Email.builder().userName("hhh").domain("www.com").build());
         System.out.println(containsEmail);
     }
 
     @Data
-    @Builder
+    @Builder(toBuilder = true)
     @ToString
     @AllArgsConstructor
     public static class Email {
