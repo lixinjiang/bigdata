@@ -13,6 +13,9 @@
         <module>hive</module>
         <module>weblog</module>
         <module>hbase</module>
+        <module>hbasenb</module>
+        <module>strom_wordcount</module>
+        <module>ackfail</module>
     </modules>
     <name>bigdata</name>
     <packaging>pom</packaging>
