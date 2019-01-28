@@ -16,6 +16,7 @@
         <module>hbasenb</module>
         <module>strom_wordcount</module>
         <module>ackfail</module>
+        <module>kafkastorm</module>
     </modules>
     <name>bigdata</name>
     <packaging>pom</packaging>
