@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static cn.lxj.bigdata.redis.util.PropertiesUtil.getValue;
+
 /**
  * MapMain
  * description
@@ -13,7 +15,7 @@ import java.util.Set;
  **/
 public class MapMain {
     public static void main(String[] args) {
-        Jedis jedis = new Jedis("192.168.0.99", 6379);
+        Jedis jedis = new Jedis(getValue("redis.host"), Integer.parseInt(getValue("redis.port")));
         jedis.del("daxia:jingzhongyue");
         // 创建一个对象
         jedis.hset("daxia:jingzhongyue", "姓名", "不为人知");
