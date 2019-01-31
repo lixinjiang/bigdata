@@ -21,8 +21,8 @@ public class OneMinuteCallBack implements Runnable {
         Calendar calendar = Calendar.getInstance();
         //24:00分时，将缓存清空
         if (calendar.get(Calendar.MINUTE) == 0 && calendar.get(Calendar.HOUR) == 24) {
-            CacheData.setPvMap(new HashMap<String, Integer>());
-            CacheData.setUvMap(new HashMap<String, Long>());
+            CacheData.setPvMap(new HashMap<>());
+            CacheData.setUvMap(new HashMap<>());
         }
         String date = DateUtils.getDate();
         //从redis中获取所有的指标最新的值
