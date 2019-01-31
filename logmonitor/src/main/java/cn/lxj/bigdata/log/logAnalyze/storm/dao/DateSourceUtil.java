@@ -1,0 +1,45 @@
+package cn.lxj.bigdata.log.logAnalyze.storm.dao;
+
+import cn.lxj.bigdata.log.logMonitor.domain.Record;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
+import java.util.Date;
+
+/**
+ * DateSourceUtil
+ * description
+ * create class by lxj 2019/1/30
+ **/
+public class DateSourceUtil {
+    private static Logger logger = LoggerFactory.getLogger(DateSourceUtil.class);
+    private static DataSource dataSource;
+    static {
+        dataSource = new ComboPooledDataSource("logAnalyze");
+    }
+
+    public static synchronized DataSource getDataSource(){
+        if (dataSource == null) {
+            dataSource = new ComboPooledDataSource();
+        }
+        return dataSource;
+    }
+
+    public static void main(String[] args) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+//        String sql = "SELECT `id`,`name`,`keyword`,`isValid`,`appId` FROM `log_monitor`.`log_monitor_rule` WHERE isValid =1";
+//        System.out.println(jdbcTemplate.query(sql, new BeanPropertyRowMapper<RuleField>(RuleField.class)));
+        Record record = new Record();
+        record.setAppId(1);
+        record.setRuleId(1);
+        record.setIsEmail(1);
+        record.setIsPhone(1);
+        record.setIsColse(0);
+        String sql = "INSERT INTO `log_monitor`.`log_monitor_rule_record` (`appId`,`ruleId`,`isEmail`,`isPhone`,`isColse`,`noticeInfo`,`updataDate`) " +
+                "VALUES ( ?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, record.getAppId(), record.getRuleId(), record.getIsEmail(), record.getIsPhone(), 0, record.getLine(),new Date());
+    }
+}
