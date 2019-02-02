@@ -13,21 +13,25 @@ import cn.lxj.bigdata.log.logMonitor.bolt.PrepareRecordBolt;
 import cn.lxj.bigdata.log.logMonitor.bolt.SaveMessage2MySql;
 import cn.lxj.bigdata.log.logMonitor.spout.RandomSpout;
 import cn.lxj.bigdata.log.logMonitor.spout.StringScheme;
+import storm.kafka.BrokerHosts;
+import storm.kafka.KafkaSpout;
+import storm.kafka.SpoutConfig;
+import storm.kafka.ZkHosts;
 
 /**
  * LogMonitorTopologyMain
- * description  主函数
+ * description  主函数，数据源来自kafka的，是Kafka的消费者
  * create class by lxj 2019/1/30
  **/
 public class LogMonitorTopologyMain {
     public static void main(String[] args) throws AlreadyAliveException, InvalidTopologyException {
         TopologyBuilder builder = new TopologyBuilder();
 //        设置kafka的zookeeper集群
-//        BrokerHosts hosts = new ZkHosts("zk01:2181,zk02:2181,zk03:2181");
+        BrokerHosts hosts = new ZkHosts("zk1:2181,zk2:2181,zk3:2181");
 //        初始化配置信息
-//        SpoutConfig spoutConfig = new SpoutConfig(hosts, "logmonitor", "/aaa", "log_monitor");
+        SpoutConfig spoutConfig = new SpoutConfig(hosts, "logmonitor", "/aaa", "log_monitor");
 //        在topology中设置spout
-//        builder.setSpout("kafka-spout", new KafkaSpout(spoutConfig),3);
+        builder.setSpout("kafka-spout", new KafkaSpout(spoutConfig),3);
         builder.setSpout("kafka-spout", new RandomSpout(new StringScheme()), 2);
         builder.setBolt("filter-bolt", new FilterBolt(), 3).shuffleGrouping("kafka-spout");
         builder.setBolt("prepareRecord-bolt", new PrepareRecordBolt(), 2).fieldsGrouping("filter-bolt", new Fields

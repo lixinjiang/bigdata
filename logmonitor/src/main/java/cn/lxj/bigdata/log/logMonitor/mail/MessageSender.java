@@ -29,10 +29,8 @@ public class MessageSender {
             Transport.send(mailMessage); // 发送邮件
             LOGGER.info("【 TEXT 邮件发送完毕，成功时间： " + System.currentTimeMillis() + " 】");
             return true;
-        } catch (MessagingException ex) {
+        } catch (MessagingException | UnsupportedEncodingException ex) {
             ex.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         return false;
     }

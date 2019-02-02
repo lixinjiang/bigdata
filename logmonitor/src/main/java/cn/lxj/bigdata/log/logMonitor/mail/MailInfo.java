@@ -5,7 +5,7 @@ import java.util.Properties;
 
 /**
  * MailInfo
- * description TODO
+ * description
  * create class by lxj 2019/1/31
  **/
 public class MailInfo {

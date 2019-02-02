@@ -173,7 +173,7 @@ public class LogAnalyzeHandler {
      * 配合reloadDataModel模块一起使用。
      * 主要实现原理如下：
      * 1，获取分钟的数据值，当分钟数据是10的倍数，就会触发reloadDataModel方法，简称reload时间。
-     * 2，reloadDataModel方式是线程安全的，在当前worker中只有一个现成能够操作。
+     * 2，reloadDataModel方式是线程安全的，在当前worker中只有一个线程能够操作。
      * 3，为了保证当前线程操作完毕之后，其他线程不再重复操作，设置了一个标识符reloaded。
      * 在非reload时间段时，reloaded一直被置为true；
      * 在reload时间段时，第一个线程进入reloadDataModel后，加载完毕之后会将reloaded置为false。

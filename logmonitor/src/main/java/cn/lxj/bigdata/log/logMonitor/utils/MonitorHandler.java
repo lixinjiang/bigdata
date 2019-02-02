@@ -152,12 +152,12 @@ public class MonitorHandler {
     private static Map<String, List<User>> loadUserMap() {
         //以应用的appId为key，以应用的所有负责人的userList对象为value。
         //HashMap<String, List<User>>
-        HashMap<String, List<User>> map = new HashMap<String, List<User>>();
+        HashMap<String, List<User>> map = new HashMap<>();
         for (App app : applist) {
             String userIds = app.getUserId();
             List<User> userListInApp = map.get(app.getId());
             if (userListInApp == null) {
-                userListInApp = new ArrayList<User>();
+                userListInApp = new ArrayList<>();
                 map.put(app.getId() + "", userListInApp);
             }
             String[] userIdArr = userIds.split(",");
@@ -175,7 +175,7 @@ public class MonitorHandler {
      * @return
      */
     private static Map<String, List<Rule>> loadRuleMap() {
-        Map<String, List<Rule>> map = new HashMap<String, List<Rule>>();
+        Map<String, List<Rule>> map = new HashMap<>();
         LogMonitorDao logMonitorDao = new LogMonitorDao();
         List<Rule> ruleList = logMonitorDao.getRuleList();
         //将代表rule的list转化成一个map，转化的逻辑是，
@@ -251,7 +251,7 @@ public class MonitorHandler {
      */
     private static boolean sendSMS(String appId, List<User> users, Message message) {
 //        return true;
-        List<String> mobileList = new ArrayList<String>();
+        List<String> mobileList = new ArrayList<>();
         for (User user : users) {
             mobileList.add(user.getMobile());
         }
@@ -276,7 +276,7 @@ public class MonitorHandler {
      * @return
      */
     private static boolean sendMail(String appId, List<User> userList, Message message) {
-        List<String> receiver = new ArrayList<String>();
+        List<String> receiver = new ArrayList<>();
         for (User user : userList) {
             receiver.add(user.getEmail());
         }

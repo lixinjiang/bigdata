@@ -14,13 +14,13 @@ import java.net.URLEncoder;
 
 /**
  * SMSBase
- * description TODO
+ * description 短信发送基类
  * create class by lxj 2019/1/31
  **/
 public class SMSBase {
     private static Logger logger = LoggerFactory.getLogger(SMSBase.class);
-    private static final String USER_ID = "wangsenfeng";
-    private static final String PASSWORD = "wangsenfeng";
+    private static final String USER_ID = "guijiaoqi";
+    private static final String PASSWORD = "guijiaoqi";
 
     public static boolean sendSms(String mobile, String content) {
         HttpURLConnection httpconn = null;
@@ -41,15 +41,14 @@ public class SMSBase {
             result = rd.readLine();
             System.out.println("====================================" + result);
             rd.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (httpconn != null) {
                 httpconn.disconnect();
+            } else {
+                httpconn = null;
             }
-            httpconn = null;
         }
         if (StringUtils.isNotBlank(result)) {
             if (result.substring(0, 3).equals("000")) {

@@ -14,7 +14,7 @@ import cn.lxj.bigdata.log.logAnalyze.storm.spout.RandomSpout;
 
 /**
  * LogAnalyzeTopologyMain
- * description
+ * description  日志分析，计算pv，uv
  * create class by lxj 2019/1/30
  **/
 public class LogAnalyzeTopologyMain {
